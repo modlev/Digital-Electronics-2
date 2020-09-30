@@ -3,29 +3,29 @@ LED.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  0000010c  2**0
+  0 .data         00000000  00800100  00800100  000001e6  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000b8  00000000  00000000  00000054  2**1
+  1 .text         00000192  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  0000010c  2**0
+  2 .comment      00000030  00000000  00000000  000001e6  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000013c  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000218  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  0000017c  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000258  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000708  00000000  00000000  0000019c  2**0
+  5 .debug_info   0000088c  00000000  00000000  00000278  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000065e  00000000  00000000  000008a4  2**0
+  6 .debug_abbrev 0000066f  00000000  00000000  00000b04  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000025e  00000000  00000000  00000f02  2**0
+  7 .debug_line   00000384  00000000  00000000  00001173  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00001160  2**2
+  8 .debug_frame  00000024  00000000  00000000  000014f8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003a2  00000000  00000000  00001184  2**0
+  9 .debug_str    00000399  00000000  00000000  0000151c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000048  00000000  00000000  00001526  2**0
+ 10 .debug_loc    00000240  00000000  00000000  000018b5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  0000156e  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  00001af5  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -66,80 +66,215 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 40 00 	call	0x80	; 0x80 <main>
-  78:	0c 94 5a 00 	jmp	0xb4	; 0xb4 <_exit>
+  78:	0c 94 c7 00 	jmp	0x18e	; 0x18e <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000080 <main>:
+ * Make a Knight Rider with 5 LEDs
  */
 int main(void)
 {
-    /* GREEN LED */
     // Set pin as output in Data Direction Register...
-    DDRB = DDRB | (1<<LED_BLUE);
-  80:	25 9a       	sbi	0x04, 5	; 4
-    // ...and turn LED off in Data Register
-    PORTB = PORTB & ~(1<<LED_BLUE);
-  82:	2d 98       	cbi	0x05, 5	; 5
-
-    /* second LED */
-    // WRITE YOUR CODE HERE
-	DDRC = DDRC | (1<<LED_RED);
+    DDRB = DDRB | (1<<LED_1);
+  80:	21 9a       	sbi	0x04, 1	; 4
+	DDRB = DDRB | (1<<LED_2);
+  82:	25 9a       	sbi	0x04, 5	; 4
+	DDRC = DDRC | (1<<LED_3);
   84:	38 9a       	sbi	0x07, 0	; 7
-	PORTC = PORTC & ~(1<<LED_RED);//Turn off
-  86:	40 98       	cbi	0x08, 0	; 8
-	
-	//Push button
-	DDRD = DDRD & ~(1<<BTN); //input
-  88:	50 98       	cbi	0x0a, 0	; 10
-	PORTD = PORTD |(1<<BTN);//enable internal pull-up
-  8a:	58 9a       	sbi	0x0b, 0	; 11
-        _delay_ms(BLINK_DELAY);
+	DDRC = DDRC | (1<<LED_4);
+  86:	3a 9a       	sbi	0x07, 2	; 7
+	DDRC = DDRC | (1<<LED_5);
+  88:	3d 9a       	sbi	0x07, 5	; 7
+    // ...and turn LED off in Data Register
+    PORTB = PORTB & ~(1<<LED_1);
+  8a:	29 98       	cbi	0x05, 1	; 5
+	PORTB = PORTB & ~(1<<LED_2);
+  8c:	2d 98       	cbi	0x05, 5	; 5
+	PORTC = PORTC & ~(1<<LED_3);
+  8e:	40 98       	cbi	0x08, 0	; 8
+	PORTC = PORTC & ~(1<<LED_4);
+  90:	42 98       	cbi	0x08, 2	; 8
+	PORTC = PORTC & ~(1<<LED_5);
+  92:	45 98       	cbi	0x08, 5	; 8
 
-        // WRITE YOUR CODE HERE
-		if(bit_is_clear(PIND,BTN))
-		{
-			PORTB = PORTB^(1<<LED_BLUE); //Invert
-  8c:	20 e2       	ldi	r18, 0x20	; 32
-			PORTC = PORTC^(1<<LED_RED);  //Invert
-  8e:	91 e0       	ldi	r25, 0x01	; 1
+    // Infinite loop
+    while (1)
+    {
+		PORTB = PORTB^(1<<LED_1);  
+  94:	42 e0       	ldi	r20, 0x02	; 2
+		_delay_ms(BLINK_DELAY);
+		PORTB = PORTB^(1<<LED_1);  
+		PORTB = PORTB^(1<<LED_2);  
+  96:	80 e2       	ldi	r24, 0x20	; 32
+		_delay_ms(BLINK_DELAY);
+		PORTB = PORTB^(1<<LED_2);
+		PORTC = PORTC^(1<<LED_3);
+  98:	21 e0       	ldi	r18, 0x01	; 1
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_3);
+		PORTC = PORTC^(1<<LED_4);
+  9a:	94 e0       	ldi	r25, 0x04	; 4
+	PORTC = PORTC & ~(1<<LED_5);
+
+    // Infinite loop
+    while (1)
+    {
+		PORTB = PORTB^(1<<LED_1);  
+  9c:	35 b1       	in	r19, 0x05	; 5
+  9e:	34 27       	eor	r19, r20
+  a0:	35 b9       	out	0x05, r19	; 5
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  90:	3f ef       	ldi	r19, 0xFF	; 255
-  92:	43 ed       	ldi	r20, 0xD3	; 211
-  94:	80 e3       	ldi	r24, 0x30	; 48
-  96:	31 50       	subi	r19, 0x01	; 1
-  98:	40 40       	sbci	r20, 0x00	; 0
-  9a:	80 40       	sbci	r24, 0x00	; 0
-  9c:	e1 f7       	brne	.-8      	; 0x96 <main+0x16>
-  9e:	00 c0       	rjmp	.+0      	; 0xa0 <main+0x20>
-  a0:	00 00       	nop
-    {
-        // Pause several milliseconds
-        _delay_ms(BLINK_DELAY);
+  a2:	3f ef       	ldi	r19, 0xFF	; 255
+  a4:	53 ec       	ldi	r21, 0xC3	; 195
+  a6:	69 e0       	ldi	r22, 0x09	; 9
+  a8:	31 50       	subi	r19, 0x01	; 1
+  aa:	50 40       	sbci	r21, 0x00	; 0
+  ac:	60 40       	sbci	r22, 0x00	; 0
+  ae:	e1 f7       	brne	.-8      	; 0xa8 <main+0x28>
+  b0:	00 c0       	rjmp	.+0      	; 0xb2 <main+0x32>
+  b2:	00 00       	nop
+		_delay_ms(BLINK_DELAY);
+		PORTB = PORTB^(1<<LED_1);  
+  b4:	35 b1       	in	r19, 0x05	; 5
+  b6:	34 27       	eor	r19, r20
+  b8:	35 b9       	out	0x05, r19	; 5
+		PORTB = PORTB^(1<<LED_2);  
+  ba:	35 b1       	in	r19, 0x05	; 5
+  bc:	38 27       	eor	r19, r24
+  be:	35 b9       	out	0x05, r19	; 5
+  c0:	3f ef       	ldi	r19, 0xFF	; 255
+  c2:	53 ec       	ldi	r21, 0xC3	; 195
+  c4:	69 e0       	ldi	r22, 0x09	; 9
+  c6:	31 50       	subi	r19, 0x01	; 1
+  c8:	50 40       	sbci	r21, 0x00	; 0
+  ca:	60 40       	sbci	r22, 0x00	; 0
+  cc:	e1 f7       	brne	.-8      	; 0xc6 <main+0x46>
+  ce:	00 c0       	rjmp	.+0      	; 0xd0 <main+0x50>
+  d0:	00 00       	nop
+		_delay_ms(BLINK_DELAY);
+		PORTB = PORTB^(1<<LED_2);
+  d2:	35 b1       	in	r19, 0x05	; 5
+  d4:	38 27       	eor	r19, r24
+  d6:	35 b9       	out	0x05, r19	; 5
+		PORTC = PORTC^(1<<LED_3);
+  d8:	38 b1       	in	r19, 0x08	; 8
+  da:	32 27       	eor	r19, r18
+  dc:	38 b9       	out	0x08, r19	; 8
+  de:	3f ef       	ldi	r19, 0xFF	; 255
+  e0:	53 ec       	ldi	r21, 0xC3	; 195
+  e2:	69 e0       	ldi	r22, 0x09	; 9
+  e4:	31 50       	subi	r19, 0x01	; 1
+  e6:	50 40       	sbci	r21, 0x00	; 0
+  e8:	60 40       	sbci	r22, 0x00	; 0
+  ea:	e1 f7       	brne	.-8      	; 0xe4 <main+0x64>
+  ec:	00 c0       	rjmp	.+0      	; 0xee <main+0x6e>
+  ee:	00 00       	nop
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_3);
+  f0:	38 b1       	in	r19, 0x08	; 8
+  f2:	32 27       	eor	r19, r18
+  f4:	38 b9       	out	0x08, r19	; 8
+		PORTC = PORTC^(1<<LED_4);
+  f6:	38 b1       	in	r19, 0x08	; 8
+  f8:	39 27       	eor	r19, r25
+  fa:	38 b9       	out	0x08, r19	; 8
+  fc:	3f ef       	ldi	r19, 0xFF	; 255
+  fe:	53 ec       	ldi	r21, 0xC3	; 195
+ 100:	69 e0       	ldi	r22, 0x09	; 9
+ 102:	31 50       	subi	r19, 0x01	; 1
+ 104:	50 40       	sbci	r21, 0x00	; 0
+ 106:	60 40       	sbci	r22, 0x00	; 0
+ 108:	e1 f7       	brne	.-8      	; 0x102 <main+0x82>
+ 10a:	00 c0       	rjmp	.+0      	; 0x10c <main+0x8c>
+ 10c:	00 00       	nop
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_4);
+ 10e:	38 b1       	in	r19, 0x08	; 8
+ 110:	39 27       	eor	r19, r25
+ 112:	38 b9       	out	0x08, r19	; 8
+		PORTC = PORTC^(1<<LED_5);
+ 114:	38 b1       	in	r19, 0x08	; 8
+ 116:	38 27       	eor	r19, r24
+ 118:	38 b9       	out	0x08, r19	; 8
+ 11a:	3f ef       	ldi	r19, 0xFF	; 255
+ 11c:	53 ec       	ldi	r21, 0xC3	; 195
+ 11e:	69 e0       	ldi	r22, 0x09	; 9
+ 120:	31 50       	subi	r19, 0x01	; 1
+ 122:	50 40       	sbci	r21, 0x00	; 0
+ 124:	60 40       	sbci	r22, 0x00	; 0
+ 126:	e1 f7       	brne	.-8      	; 0x120 <main+0xa0>
+ 128:	00 c0       	rjmp	.+0      	; 0x12a <main+0xaa>
+ 12a:	00 00       	nop
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_5);
+ 12c:	38 b1       	in	r19, 0x08	; 8
+ 12e:	38 27       	eor	r19, r24
+ 130:	38 b9       	out	0x08, r19	; 8
+		PORTC = PORTC^(1<<LED_4);
+ 132:	38 b1       	in	r19, 0x08	; 8
+ 134:	39 27       	eor	r19, r25
+ 136:	38 b9       	out	0x08, r19	; 8
+ 138:	3f ef       	ldi	r19, 0xFF	; 255
+ 13a:	53 ec       	ldi	r21, 0xC3	; 195
+ 13c:	69 e0       	ldi	r22, 0x09	; 9
+ 13e:	31 50       	subi	r19, 0x01	; 1
+ 140:	50 40       	sbci	r21, 0x00	; 0
+ 142:	60 40       	sbci	r22, 0x00	; 0
+ 144:	e1 f7       	brne	.-8      	; 0x13e <main+0xbe>
+ 146:	00 c0       	rjmp	.+0      	; 0x148 <main+0xc8>
+ 148:	00 00       	nop
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_4);
+ 14a:	38 b1       	in	r19, 0x08	; 8
+ 14c:	39 27       	eor	r19, r25
+ 14e:	38 b9       	out	0x08, r19	; 8
+		PORTC = PORTC^(1<<LED_3);
+ 150:	38 b1       	in	r19, 0x08	; 8
+ 152:	32 27       	eor	r19, r18
+ 154:	38 b9       	out	0x08, r19	; 8
+ 156:	3f ef       	ldi	r19, 0xFF	; 255
+ 158:	53 ec       	ldi	r21, 0xC3	; 195
+ 15a:	69 e0       	ldi	r22, 0x09	; 9
+ 15c:	31 50       	subi	r19, 0x01	; 1
+ 15e:	50 40       	sbci	r21, 0x00	; 0
+ 160:	60 40       	sbci	r22, 0x00	; 0
+ 162:	e1 f7       	brne	.-8      	; 0x15c <main+0xdc>
+ 164:	00 c0       	rjmp	.+0      	; 0x166 <main+0xe6>
+ 166:	00 00       	nop
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_3);
+ 168:	38 b1       	in	r19, 0x08	; 8
+ 16a:	32 27       	eor	r19, r18
+ 16c:	38 b9       	out	0x08, r19	; 8
+		PORTB = PORTB^(1<<LED_2);
+ 16e:	35 b1       	in	r19, 0x05	; 5
+ 170:	38 27       	eor	r19, r24
+ 172:	35 b9       	out	0x05, r19	; 5
+ 174:	3f ef       	ldi	r19, 0xFF	; 255
+ 176:	53 ec       	ldi	r21, 0xC3	; 195
+ 178:	69 e0       	ldi	r22, 0x09	; 9
+ 17a:	31 50       	subi	r19, 0x01	; 1
+ 17c:	50 40       	sbci	r21, 0x00	; 0
+ 17e:	60 40       	sbci	r22, 0x00	; 0
+ 180:	e1 f7       	brne	.-8      	; 0x17a <main+0xfa>
+ 182:	00 c0       	rjmp	.+0      	; 0x184 <main+0x104>
+ 184:	00 00       	nop
+		_delay_ms(BLINK_DELAY);
+		PORTB = PORTB^(1<<LED_2);
+ 186:	35 b1       	in	r19, 0x05	; 5
+ 188:	38 27       	eor	r19, r24
+ 18a:	35 b9       	out	0x05, r19	; 5
+ 18c:	87 cf       	rjmp	.-242    	; 0x9c <main+0x1c>
 
-        // WRITE YOUR CODE HERE
-		if(bit_is_clear(PIND,BTN))
-  a2:	48 99       	sbic	0x09, 0	; 9
-  a4:	f5 cf       	rjmp	.-22     	; 0x90 <main+0x10>
-		{
-			PORTB = PORTB^(1<<LED_BLUE); //Invert
-  a6:	85 b1       	in	r24, 0x05	; 5
-  a8:	82 27       	eor	r24, r18
-  aa:	85 b9       	out	0x05, r24	; 5
-			PORTC = PORTC^(1<<LED_RED);  //Invert
-  ac:	88 b1       	in	r24, 0x08	; 8
-  ae:	89 27       	eor	r24, r25
-  b0:	88 b9       	out	0x08, r24	; 8
-  b2:	ee cf       	rjmp	.-36     	; 0x90 <main+0x10>
+0000018e <_exit>:
+ 18e:	f8 94       	cli
 
-000000b4 <_exit>:
-  b4:	f8 94       	cli
-
-000000b6 <__stop_program>:
-  b6:	ff cf       	rjmp	.-2      	; 0xb6 <__stop_program>
+00000190 <__stop_program>:
+ 190:	ff cf       	rjmp	.-2      	; 0x190 <__stop_program>

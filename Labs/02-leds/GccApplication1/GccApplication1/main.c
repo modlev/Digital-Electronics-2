@@ -5,10 +5,12 @@
  * Author : Modestas
  */ 
 /* Defines -----------------------------------------------------------*/
-#define LED_BLUE   PB5     // AVR pin where blue LED is connected
-#define LED_RED    PC0     // AVR pin where red LED is connected
-#define BTN		   PD0		//Button
-#define BLINK_DELAY 1000
+#define LED_1  PB1     // AVR pin where LED is connected
+#define LED_2  PB5 
+#define LED_3  PC0 
+#define LED_4  PC2
+#define LED_5  PC5 
+#define BLINK_DELAY 200 //delay time in milliseconds
 #ifndef F_CPU
 #define F_CPU 16000000      // CPU frequency in Hz required for delay
 #endif
@@ -19,39 +21,50 @@
 
 /* Functions ---------------------------------------------------------*/
 /**
- * Main function where the program execution begins. Toggle two LEDs 
- * when a push button is pressed.
+ * Make a Knight Rider with 5 LEDs
  */
 int main(void)
 {
-    /* GREEN LED */
     // Set pin as output in Data Direction Register...
-    DDRB = DDRB | (1<<LED_BLUE);
+    DDRB = DDRB | (1<<LED_1);
+	DDRB = DDRB | (1<<LED_2);
+	DDRC = DDRC | (1<<LED_3);
+	DDRC = DDRC | (1<<LED_4);
+	DDRC = DDRC | (1<<LED_5);
     // ...and turn LED off in Data Register
-    PORTB = PORTB & ~(1<<LED_BLUE);
+    PORTB = PORTB & ~(1<<LED_1);
+	PORTB = PORTB & ~(1<<LED_2);
+	PORTC = PORTC & ~(1<<LED_3);
+	PORTC = PORTC & ~(1<<LED_4);
+	PORTC = PORTC & ~(1<<LED_5);
 
-    /* second LED */
-    // WRITE YOUR CODE HERE
-	DDRC = DDRC | (1<<LED_RED);
-	PORTC = PORTC & ~(1<<LED_RED);//Turn off
-	
-	//Push button
-	DDRD = DDRD & ~(1<<BTN); //input
-	PORTD = PORTD |(1<<BTN);//enable internal pull-up
-	
     // Infinite loop
     while (1)
     {
-        // Pause several milliseconds
-        _delay_ms(BLINK_DELAY);
-
-        // WRITE YOUR CODE HERE
-		if(bit_is_clear(PIND,BTN))
-		{
-			PORTB = PORTB^(1<<LED_BLUE); //Invert
-			PORTC = PORTC^(1<<LED_RED);  //Invert
-		}
-		
+		PORTB = PORTB^(1<<LED_1);  
+		_delay_ms(BLINK_DELAY);
+		PORTB = PORTB^(1<<LED_1);  
+		PORTB = PORTB^(1<<LED_2);  
+		_delay_ms(BLINK_DELAY);
+		PORTB = PORTB^(1<<LED_2);
+		PORTC = PORTC^(1<<LED_3);
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_3);
+		PORTC = PORTC^(1<<LED_4);
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_4);
+		PORTC = PORTC^(1<<LED_5);
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_5);
+		PORTC = PORTC^(1<<LED_4);
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_4);
+		PORTC = PORTC^(1<<LED_3);
+		_delay_ms(BLINK_DELAY);
+		PORTC = PORTC^(1<<LED_3);
+		PORTB = PORTB^(1<<LED_2);
+		_delay_ms(BLINK_DELAY);
+		PORTB = PORTB^(1<<LED_2);
     }
 
     // Will never reach this
