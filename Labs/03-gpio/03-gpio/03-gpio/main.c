@@ -48,8 +48,7 @@ int main(void)
 	GPIO_write_high(&PORTC, LED_RED);
     /* push button */
     // WRITE YOUR CODE HERE
-	GPIO_write_low(&DDRD, BTN);
-	GPIO_write_high(&PORTD, BTN);
+	GPIO_config_input_pullup(&DDRD,BTN)
     // Infinite loop
     while (1)
     {
