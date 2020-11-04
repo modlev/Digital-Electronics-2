@@ -13,7 +13,8 @@
 /* Variables ---------------------------------------------------------*/
 // Active-low digits 0 to 9
 uint8_t segment_value[] = {
-	/*// abcdefgDP
+	
+	// abcdefgDP
 	0b00000011,      // Digit 0
 	0b10011111,      // Digit 1
 	0b00100101,      // Digit 2
@@ -25,7 +26,7 @@ uint8_t segment_value[] = {
 	0b00000001,		 // 8
 	0b00001001,		 // 9
 	0b11111111	     //none
-	*/
+	/*
 	0b01111111,		 //top
 	0b10111111,		 //right side top
 	0b11011111,		 //right side bottom
@@ -33,6 +34,7 @@ uint8_t segment_value[] = {
 	0b11110111,		 //left side bottom
 	0b11111011,		 //left side top
 	0b11111101		 //middle	
+	*/
 };
 
 // Active-high position 0 to 3
