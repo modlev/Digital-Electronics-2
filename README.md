@@ -1,8 +1,8 @@
 # Digital-electronics-2
 **Team members**
 
-• Modestas Levišauskas
-• Ernestas Katvickis
++ Modestas Levišauskas
++ Ernestas Katvickis
 
 [Modestas Levišauskas GitHub account](https://github.com/modlev)
 
