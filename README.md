@@ -8,12 +8,13 @@
 
 **Project Objectives:**
 
-1. Create a diagram of working door lock.
-2. Write a code in Atmel Studio 7 for a 4x3 keypad door lock.
-3. Make simulations to see if the code is working with the diagram.
+
+Project objective is to create description of 4x3 keyboard control and in this project must be included an application of door lock system, display, door unlock relay, own library for keypad scanning, time limit for entering the correct 4-digit code, signaling of entering the wrong code, time delay for re-locking the lock approx. Also, another project objectives are self study, creation of own solution and presentation of results.
+
 
 **Hardware description**
 
+We used SimulIDE for our scheme. The scheme is consist of LCD display, AVR microcontroller Atmega328, 4x3 keyboard, Audio output device, Relay, BJT transistor, Fix voltage, LED's, Resistors and Grounds. 
 
 
 **Code description and simulations**
