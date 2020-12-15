@@ -24,7 +24,7 @@ We used SimulIDE for our scheme. The scheme consist of:
 -Resistors - are used to lower the current;
 -Grounds - are used to end the circuit. 
 
-
+![Scheme](https://github.com/modlev/Digital-Electronics-2/blob/master/Project/Scheme.png)
 
 **Code description and simulations**
 
@@ -36,9 +36,6 @@ We used SimulIDE for our scheme. The scheme consist of:
 
 
 
-First Header | Second Header | Third Header
--------------|---------------|-------------
-Some content | Some more content | Even more content |
 
 ```c
 function MyFunc(int a, int b)
