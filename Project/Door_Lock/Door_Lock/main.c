@@ -8,67 +8,32 @@
 /* Includes ----------------------------------------------------------*/
 #include <avr/io.h>         // AVR device-specific IO definitions
 #include <avr/interrupt.h>  // Interrupts standard C library for AVR-GCC
+#ifndef F_CPU
 #define F_CPU 16000000
-#include <util/delay.h> // Functions for busy-wait delay loops 
-#include <avr/io.h> // AVR device-specific IO definitions
+#endif
+#include <util/delay.h>		// Functions for busy-wait delay loops 
+#include <avr/io.h>			// AVR device-specific IO definitions
 #include "timer.h"          // Timer library for AVR-GCC
 #include "lcd.h"            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for conversion function
-
-#define COLUMN1 PORTC4
-#define COLUMN2 PORTC5
-#define COLUMN3 PORTC6
-#define ROW1 PINB0
-#define ROW2 PINB1
-#define ROW3 PINB2
-#define ROW4 PINB3
-
-#define LED_RED  PD1
-#define LED_GREEN  PD0
+#include "function.h"		// Library of my functions
+#include "uart.h"
 #include <stdint.h>
-/* Function definitions ----------------------------------------------*/
-uint8_t scanKeyboard();
-int determineKey(uint8_t scannedKey);
-int ArrayComparison(int a[2][4], int b[], int size)
-{
-	int cor=0;
-	for(int j = 0; j < 2;j++)
-	{
-		for(int i = 0; i<4;i++)
-		{
-			if(a[j][i] == b[i])
-			{
-				cor++;
-				if(cor == 4)
-				return 1;
-			}
-		}
-		cor=0;
-	}
 
-	return 0;
-}
-void setup(){
-	//LED's
-	DDRD = DDRD | (1<<LED_RED);
-	DDRD = DDRD | (1<<LED_GREEN);
-	
-	PORTD = PORTD & ~(1<<LED_RED);
-	PORTD = PORTD & ~(1<<LED_GREEN);
-	
-	//Columns
-	DDRC |= (1<< COLUMN1) | (1<<COLUMN2) | (1<< COLUMN3);
-	
-	//Set all columns to high 0b10101000
-	PORTC  |= (1<< COLUMN1) | (1<<COLUMN2) | (1<< COLUMN3);
-	
-	//Rows implicitly defined as inputs
-	//Turn on internal pull ups for the rows
-	DDRB = 0x00;
-	PORTB |= (1<<ROW1) | (1 << ROW2) | (1 << ROW3) | (1 << ROW4);
-}
 int main(void)
 {
+	// Configure ADC to convert PC0[A0] analog value
+	// Set ADC reference to AVcc
+	ADMUX |= (1 << REFS0);
+	// Set input channet to ADC0
+	ADMUX &= ~((1<<MUX3) | (1<<MUX2) | (1<<MUX1) | (1<<MUX0));
+	// Enable ADC module
+	ADCSRA |=  (1 << ADEN);
+	// Enable conversion complete interrupt
+	ADCSRA |= (1 << ADIE);
+	// Set clock prescaler to 128
+	ADCSRA |= ((1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2));
+
 	// Initialize LCD display
 	lcd_init(LCD_DISP_ON);
 
@@ -81,215 +46,188 @@ int main(void)
 	// Display first custom character
 	lcd_gotoxy(0,0);
 	lcd_puts("Enter password:");
+	setup();		// Setting up all the I/O ports
 	
-	 setup();
-    // Configure 8-bit Timer/Counter2 for Stopwatch
-    // Set prescaler and enable overflow interrupt every 16 ms
-	/*TIM2_overflow_16ms();
-	TIM2_overflow_interrupt_enable();
-	TIM0_overflow_4ms();
+	
+	// 
 	TIM0_overflow_interrupt_enable();
-    // Enables interrupts by setting the global interrupt mask
-    sei();
-	*/
+	TIM0_overflow_16ms();
+	 
+	// Initiate uart
+	uart_init(UART_BAUD_SELECT(9600,F_CPU));
+    
+	// Enable interrupts
+	sei();
     // Infinite loop
-	int key;
-	static int quantity = 0;
-	int correct_num[2][4] ={{1, 2, 3, 4}, {5, 6, 7, 8}};
-	int entered_num[4];
     while(1)
     {
-		 key = determineKey(scanKeyboard());
-		  _delay_ms(100);
-		  entered_num[quantity]=key;
-		 if(key != 15)
-		 {
-			 quantity++;
-			 if(quantity==4)
-			 {
-				 quantity = 0;
-				 lcd_gotoxy(0,1);
-				 if(ArrayComparison(correct_num,entered_num,(sizeof(correct_num))/4))
-				 {
-					  lcd_puts("Correct code");
-					  PORTD= PORTD^(1<<LED_GREEN);
-					  _delay_ms(1000);
-					  lcd_gotoxy(0,1);
-					  lcd_puts("                                      ");
-					  PORTD= PORTD^(1<<LED_GREEN);
-				 }
-				 else
-				 {
-					 lcd_puts("Inccorect code, try again in 10 seconds");
-					 PORTD= PORTD^(1<<LED_RED);
-					 _delay_ms(1000);
-					 lcd_gotoxy(0,1);
-					 lcd_puts("                                      ");
-					 PORTD= PORTD^(1<<LED_RED);
-				 }
-				 
-				 
-			 }
-		 }
 	}
 }
-
-uint8_t scanKeyboard()
+ISR(TIMER0_OVF_vect)
 {
-	
-	
-	PORTC  |= (1<< COLUMN1) | (1<<COLUMN2) | (1<< COLUMN3);
-
-	
-	//variable that will store the state of the row pins
-	uint8_t rowState = PORTB;
-	uint8_t masker = 0b00001111;
-	for(int i = 4; i < 7; i++)
+	// Start ADC conversion
+	ADCSRA |= (1 << ADSC);
+}
+ISR(ADC_vect)
+{	
+	// Time dedicated to insert a password
+	static uint8_t time = 0; 
+	// Time is always amplified by 1
+	time++;					
+	// Pressed key
+	static uint8_t key;	
+	// Quantity of keys pressed
+	static uint8_t quantity = 0; 
+	/* Correct number matrix (if changed, need 
+	   to change the function ArrayComparison  */
+	static uint8_t correct_num[2][4] =
 	{
-		PORTC &= ~(1 << i);
-		
-		//Read all rows simultaneously and record the data to be used in if statements later for indicating the specific key pressed
-		rowState = (masker & PINB);
-		
-		if(rowState != PORTB)
+		{1, 2, 3, 4},// first password
+		{5, 6, 7, 8} // second password
+	};
+	// Massive of entered number
+	static uint8_t entered_num[4];
+	/* How many attempt did the user 
+	   did to write the password */
+	static uint8_t tries = 0;
+	/* If the number of tries are not exceeding 4
+	   and the time is not more than 5 seconds 
+	   the code for entering password is executed */
+	if(tries < 4 && time < 48)
+	{
+		/* Finding the pressed key and
+		   saving in key variable */
+		key = determineKey(scanKeyboard(),quantity);
+		/*
+		 Delay is required so that the keystroke
+		 wouldn't be scanned multiple times
+		*/
+		_delay_ms(100);
+		/* Pressed key is added to the required 
+		   place in the massive */
+		entered_num[quantity]=key;
+		/* If the key is not pressed this step 
+		   is gonna be skipped*/
+		if(key != 15) 
 		{
-			return PORTC | rowState;
+			/* Quantity of keystrokes are amplified 
+		       after every keystroke */
+			quantity++; 
+			/* If quantity reaches 4 = the maximum
+			   number of password code this part of 
+			   the code is executed */
+			if(quantity==4 ) 
+			{
+				/* since the quantity is already
+				   at the max */
+				quantity = 0;
+				// Go to LCD second line
+				lcd_gotoxy(0,1);
+				/* If the entered number is in the 
+				   correct number matrix than this 
+				   part of the code is executed 
+				   and the doors unlock */
+				if(ArrayComparison(correct_num,entered_num))
+				{
+					// text is written in uart 
+					uart_puts("Correct password\n\r");
+					// text is written in LCD
+					lcd_puts("Correct password");
+					/* Delay so that the written 
+					   text would be seen */
+					_delay_ms(200);
+					// Green LED blinks 
+					GreenBlink();
+					// Doors are unlocked 
+					Unlock();
+					// Time is returned to 0 
+					time = 0;
+					/* The correct password was 
+					   inserted so number of 
+					   tried attempts to write the
+					   password are reduced to 0 */
+					tries = 0;
+				}
+				/* If the wrong password is inserted
+				   than this part of code is executed */
+				else
+				{
+					// In uart this text is written
+					uart_puts("Incorrect password\n\r");
+					/* LCD show that the password was 
+					incorrect */
+					lcd_puts("Incorrect");
+					// Delay to show text
+					_delay_ms(200);
+					RedBlink(); // Red LED blinks
+					/* Buzzer sound to show that the
+					   inserted code was wrong */ 
+					Buzzer_sound();
+					// Times reduced to 0
+					time = 0;
+					// Attempt number is increased by 1
+					tries++;
+				}
+			}
 		}
-		else {}
-
-
-			//Reset
-			PORTC |= (1<< COLUMN1) | (1<<COLUMN2) | (1<< COLUMN3);
-			rowState = PORTB;
 	}
-	return 0;
-}
-	
-int determineKey(uint8_t scannedKey)
-{
-		static int possition = 0;
-		if (scannedKey == 0b01101110)
+	/* if the attempts to write the password exceeds 
+	   4 times than this part of the code is 
+	   executed */
+	else if(tries >3)
+	{
+		// tries are used as a time variable
+		tries++;
+		/* time reduced to 0 so that the code
+		   would not jump between code */
+		time = 0;
+		lcd_gotoxy(0,1);
+		lcd_puts("Too much attempts");
+		/* When the LCD is read then the 
+		   words change*/
+		if(tries == 192)
 		{
-			//Do something that indicates 1 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 1;
-		} 
-		else if (scannedKey == 0b01011110)
-		{
-			//Do something that indicates 2 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 2;
-		} 
-		else if (scannedKey == 0b00111110)
-		{
-			//Do something that indicates 3 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 3;
-		} 
-		else if (scannedKey == 0b01101101)
-		{
-			//Do something that indicates 4 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 4;
-		} 
-		else if (scannedKey == 0b01011101)
-		{
-			//Do something that indicates 5 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 5;
-		} 
-		else if (scannedKey == 0b00111101)
-		{
-			//Do something that indicates 6 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 6;
-		} 
-		else if (scannedKey == 0b01101011)
-		{
-			//Do something that indicates 7 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 7;
-		} 
-		else if (scannedKey == 0b01011011)
-		{
-			//Do something that indicates 8 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 8;
-		} 
-		else if (scannedKey == 0b00111011)
-		{
-			//Do something that indicates 9 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 9;
-		} 
-		else if (scannedKey == 0b01100111)
-		{
-			//Do something that indicates * has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 10;
-		} 
-		else if (scannedKey == 0b01010111)
-		{
-			//Do something that indicates 0 has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 11;
-		} 
-		else if (scannedKey == 0b00110111)
-		{
-			//Do something that indicates # has been pressed
-			lcd_gotoxy(possition,1);
-			lcd_puts("*");
-			possition++;
-			if(possition==4)
-			possition = 0;
-			return 12;
-		} 
-		else 
-		{
-			return 15;
+			lcd_gotoxy(0,1);
+			lcd_puts("You may enter the code");
 		}
+		/* Again do the same as before*/
+		else if(tries == 232)
+		{
+			uart_puts("Exceeded 4 times limit\n\r");
+			/* Except this time tries are reduced
+			   to 0 and becomes the number of 
+			   attempts again, because it is the 
+			   last code part of waiting after 
+			   4 wrong attempts and it clears the 
+			   LCD second line*/
+			tries = 0;
+			lcd_gotoxy(0,1);
+			lcd_puts("                       ");
+		}
+	}
+	/* when attempt time reaches 5 seconds
+	   the LCD shows that the attempt time
+	   has ended and shows the text written 
+	   below, time is used for the delay,
+	   so that the user could see the code*/
+	else if(time > 47 && time < 101)
+	{
+		lcd_gotoxy(0,1);
+		lcd_puts("Took to much time");
+		time++;
+	}
+	else if(time > 100 && time < 170)
+	{
+		lcd_gotoxy(0,1);
+		lcd_puts("Try again              ");
+		time++;
+	}
+	else if(time > 169)
+	{
+		uart_puts("Time limit is over\n\r");
+		lcd_gotoxy(0,1);
+		lcd_puts("                       ");
+		time =0;
+		quantity=0;
+	}
 }
