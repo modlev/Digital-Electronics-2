@@ -39,14 +39,18 @@ In the main file we enabled the interrupt, LCD and UART. Then we tried to implem
 
 **Video/Animation**
 
+When the password is correct:
+
+![Correct password](https://github.com/modlev/Digital-Electronics-2/blob/master/Project/Correct_password_entered.gif)
+
+When an incorrect password is entered the system acts like this:
+
+![Incorrect password](https://github.com/modlev/Digital-Electronics-2/blob/master/Project/Inccorect_password_entered.gif)
+
+When the user doesn't enter the password for too long:
+
+![Exceeded time limit](https://github.com/modlev/Digital-Electronics-2/blob/master/Project/Time_limit_exceeded.gif)
+
 **References**
 
-
-
-
-```c
-function MyFunc(int a, int b)
-{
-  return a + b;
-}
-```
+https://github.com/tomas-fryza/Digital-electronics-2
