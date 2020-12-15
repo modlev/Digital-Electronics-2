@@ -13,16 +13,16 @@ Project objective is to create description of 4x3 keyboard control and in this p
 **Hardware description**
 
 We used SimulIDE for our scheme. The scheme consist of:
--LCD display - shows to the user the status of situation. If the password is written incorrectly then the word "Incorrect" lights up on LCD;
--AVR microcontroller Atmega328 - is meant to control the whole system;
--4x3 keyboard - is used for the intput of the password;
--Audio output device - this hardware device is used to alert the user, that a wrong password was entered;
--Relay - is used to unlock the door;
--BJT transistor - is used as a switch, to unlock the door;
--Fix voltage - used as a power source;
--LED's - there are Red and Green LED's. Red one signal that a wrong password was entered and the Green one signal that a right password was entered;
--Resistors - are used to lower the current;
--Grounds - are used to end the circuit. 
+- LCD display - shows to the user the status of situation. If the password is written incorrectly then the word "Incorrect" lights up on LCD;
+- AVR microcontroller Atmega328 - is meant to control the whole system;
+- 4x3 keyboard - is used for the intput of the password;
+- Audio output device - this hardware device is used to alert the user, that a wrong password was entered;
+- Relay - is used to unlock the door;
+- BJT transistor - is used as a switch, to unlock the door;
+- Fix voltage - used as a power source;
+- LED's - there are Red and Green LED's. Red one signal that a wrong password was entered and the Green one signal that a right password was entered;
+- Resistors - are used to lower the current;
+- Grounds - are used to end the circuit. 
 
 ![Scheme](https://github.com/modlev/Digital-Electronics-2/blob/master/Project/Scheme.png)
 
