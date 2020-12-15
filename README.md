@@ -32,6 +32,7 @@ First of all me and my partner though of a block diagram of how should the syste
 
 ![block diagram](https://github.com/modlev/Digital-Electronics-2/blob/master/Project/Block_Diagram.png)
 
+
 According to this diagram we wrote our program code.
 First of all, it was necessary to write functions. First two functions were necessary for scanning the keyboard and determine the pressed key. For that we wrote two functions: scanKeyboard() and determineKey(). The function worked and now we can determine witch key is pressed. Next step was to write a code, so that pressed key would be stored in an entered_num massive of 4 numbers. Then we wrote a function ArrayComparison() to compare the entered password to the ones that are saved by the program. Afterwards we needed to set all I/O ports on the ATmega328 microcontroller so it would work properly, so we wrote a function setup(). To make main file less complex we created functions such as RedBlink() and GreenBlink() for LEDs to blink, Unlock() to unlock the door, Buzzer_sound() for the buzzer sound when the wrong password is inserted. All these functions can be found in the [function library.](https://github.com/modlev/Digital-Electronics-2/blob/master/Project/Door_Lock/Door_Lock/function.c)
 
@@ -54,3 +55,5 @@ When the user doesn't enter the password for too long:
 **References**
 
 https://github.com/tomas-fryza/Digital-electronics-2
+https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA-168A-PA-328-P-DS-DS40002061B.pdf
+
