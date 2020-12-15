@@ -3,31 +3,31 @@ Door_Lock.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000106  00800100  00000918  000009ac  2**0
+  0 .data         00000110  00800100  0000093c  000009d0  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000918  00000000  00000000  00000094  2**1
+  1 .text         0000093c  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000008d  00800206  00800206  00000ab2  2**0
+  2 .bss          0000008d  00800210  00800210  00000ae0  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000ab2  2**0
+  3 .comment      00000030  00000000  00000000  00000ae0  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000ae4  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000b10  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000001a8  00000000  00000000  00000b24  2**0
+  5 .debug_aranges 000001a8  00000000  00000000  00000b50  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00002305  00000000  00000000  00000ccc  2**0
+  6 .debug_info   00002339  00000000  00000000  00000cf8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000d12  00000000  00000000  00002fd1  2**0
+  7 .debug_abbrev 00000d12  00000000  00000000  00003031  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001069  00000000  00000000  00003ce3  2**0
+  8 .debug_line   00001081  00000000  00000000  00003d43  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000003bc  00000000  00000000  00004d4c  2**2
+  9 .debug_frame  000003bc  00000000  00000000  00004dc4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000006ee  00000000  00000000  00005108  2**0
+ 10 .debug_str    000006ee  00000000  00000000  00005180  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00001386  00000000  00000000  000057f6  2**0
+ 11 .debug_loc    00001386  00000000  00000000  0000586e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000001b8  00000000  00000000  00006b7c  2**0
+ 12 .debug_ranges 000001b8  00000000  00000000  00006bf4  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -51,8 +51,8 @@ Disassembly of section .text:
   3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   40:	0c 94 e4 02 	jmp	0x5c8	; 0x5c8 <__vector_16>
   44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  48:	0c 94 f5 03 	jmp	0x7ea	; 0x7ea <__vector_18>
-  4c:	0c 94 23 04 	jmp	0x846	; 0x846 <__vector_19>
+  48:	0c 94 07 04 	jmp	0x80e	; 0x80e <__vector_18>
+  4c:	0c 94 35 04 	jmp	0x86a	; 0x86a <__vector_19>
   50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   54:	0c 94 f9 02 	jmp	0x5f2	; 0x5f2 <__vector_21>
   58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
@@ -72,18 +72,18 @@ Disassembly of section .text:
   74:	12 e0       	ldi	r17, 0x02	; 2
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	e8 e1       	ldi	r30, 0x18	; 24
+  7a:	ec e3       	ldi	r30, 0x3C	; 60
   7c:	f9 e0       	ldi	r31, 0x09	; 9
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
-  84:	a6 30       	cpi	r26, 0x06	; 6
+  84:	a0 31       	cpi	r26, 0x10	; 16
   86:	b1 07       	cpc	r27, r17
   88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
 
 0000008a <__do_clear_bss>:
   8a:	22 e0       	ldi	r18, 0x02	; 2
-  8c:	a6 e0       	ldi	r26, 0x06	; 6
+  8c:	a0 e1       	ldi	r26, 0x10	; 16
   8e:	b2 e0       	ldi	r27, 0x02	; 2
   90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
 
@@ -91,11 +91,11 @@ Disassembly of section .text:
   92:	1d 92       	st	X+, r1
 
 00000094 <.do_clear_bss_start>:
-  94:	a3 39       	cpi	r26, 0x93	; 147
+  94:	ad 39       	cpi	r26, 0x9D	; 157
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
   9a:	0e 94 ad 02 	call	0x55a	; 0x55a <main>
-  9e:	0c 94 8a 04 	jmp	0x914	; 0x914 <_exit>
+  9e:	0c 94 9c 04 	jmp	0x938	; 0x938 <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -1089,7 +1089,7 @@ int main(void)
 	uart_init(UART_BAUD_SELECT(9600,F_CPU));
  5bc:	87 e6       	ldi	r24, 0x67	; 103
  5be:	90 e0       	ldi	r25, 0x00	; 0
- 5c0:	0e 94 4d 04 	call	0x89a	; 0x89a <uart_init>
+ 5c0:	0e 94 5f 04 	call	0x8be	; 0x8be <uart_init>
     
 	// Enable interrupts
 	sei();
@@ -1153,17 +1153,17 @@ ISR(ADC_vect)
 	static uint8_t time = 0; 
 	// Time is always amplified by 1
 	time++;					
- 616:	80 91 0d 02 	lds	r24, 0x020D	; 0x80020d <time.2110>
+ 616:	80 91 17 02 	lds	r24, 0x0217	; 0x800217 <time.2110>
  61a:	91 e0       	ldi	r25, 0x01	; 1
  61c:	98 0f       	add	r25, r24
- 61e:	90 93 0d 02 	sts	0x020D, r25	; 0x80020d <time.2110>
+ 61e:	90 93 17 02 	sts	0x0217, r25	; 0x800217 <time.2110>
 	   did to write the password */
 	static uint8_t tries = 0;
 	/* If the number of tries are not exceeding 4
 	   and the time is not more than 5 seconds 
 	   the code for entering password is executed */
 	if(tries < 4 && time < 48)
- 622:	20 91 0c 02 	lds	r18, 0x020C	; 0x80020c <tries.2115>
+ 622:	20 91 16 02 	lds	r18, 0x0216	; 0x800216 <tries.2115>
  626:	24 30       	cpi	r18, 0x04	; 4
  628:	08 f0       	brcs	.+2      	; 0x62c <__vector_21+0x3a>
  62a:	6c c0       	rjmp	.+216    	; 0x704 <__vector_21+0x112>
@@ -1174,11 +1174,11 @@ ISR(ADC_vect)
 		/* Finding the pressed key and
 		   saving in key variable */
 		key = determineKey(scanKeyboard(),quantity);
- 632:	c0 91 0b 02 	lds	r28, 0x020B	; 0x80020b <quantity.2112>
+ 632:	c0 91 15 02 	lds	r28, 0x0215	; 0x800215 <quantity.2112>
  636:	0e 94 ad 00 	call	0x15a	; 0x15a <scanKeyboard>
  63a:	6c 2f       	mov	r22, r28
  63c:	0e 94 d5 00 	call	0x1aa	; 0x1aa <determineKey>
- 640:	80 93 0a 02 	sts	0x020A, r24	; 0x80020a <key.2111>
+ 640:	80 93 14 02 	sts	0x0214, r24	; 0x800214 <key.2111>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -1200,11 +1200,11 @@ ISR(ADC_vect)
 		/* Pressed key is added to the required 
 		   place in the massive */
 		entered_num[quantity]=key;
- 656:	80 91 0b 02 	lds	r24, 0x020B	; 0x80020b <quantity.2112>
- 65a:	90 91 0a 02 	lds	r25, 0x020A	; 0x80020a <key.2111>
+ 656:	80 91 15 02 	lds	r24, 0x0215	; 0x800215 <quantity.2112>
+ 65a:	90 91 14 02 	lds	r25, 0x0214	; 0x800214 <key.2111>
  65e:	e8 2f       	mov	r30, r24
  660:	f0 e0       	ldi	r31, 0x00	; 0
- 662:	ea 5f       	subi	r30, 0xFA	; 250
+ 662:	e0 5f       	subi	r30, 0xF0	; 240
  664:	fd 4f       	sbci	r31, 0xFD	; 253
  666:	90 83       	st	Z, r25
 		/* If the key is not pressed this step 
@@ -1212,7 +1212,7 @@ ISR(ADC_vect)
 		if(key != 15) 
  668:	9f 30       	cpi	r25, 0x0F	; 15
  66a:	09 f4       	brne	.+2      	; 0x66e <__vector_21+0x7c>
- 66c:	ac c0       	rjmp	.+344    	; 0x7c6 <__vector_21+0x1d4>
+ 66c:	be c0       	rjmp	.+380    	; 0x7ea <__vector_21+0x1f8>
 		{
 			/* Quantity of keystrokes are amplified 
 		       after every keystroke */
@@ -1230,15 +1230,15 @@ ISR(ADC_vect)
 			/* Quantity of keystrokes are amplified 
 		       after every keystroke */
 			quantity++; 
- 674:	80 93 0b 02 	sts	0x020B, r24	; 0x80020b <quantity.2112>
- 678:	a6 c0       	rjmp	.+332    	; 0x7c6 <__vector_21+0x1d4>
+ 674:	80 93 15 02 	sts	0x0215, r24	; 0x800215 <quantity.2112>
+ 678:	b8 c0       	rjmp	.+368    	; 0x7ea <__vector_21+0x1f8>
 			   the code is executed */
 			if(quantity==4 ) 
 			{
 				/* since the quantity is already
 				   at the max */
 				quantity = 0;
- 67a:	10 92 0b 02 	sts	0x020B, r1	; 0x80020b <quantity.2112>
+ 67a:	10 92 15 02 	sts	0x0215, r1	; 0x800215 <quantity.2112>
 				// Go to LCD second line
 				lcd_gotoxy(0,1);
  67e:	61 e0       	ldi	r22, 0x01	; 1
@@ -1249,7 +1249,7 @@ ISR(ADC_vect)
 				   part of the code is executed 
 				   and the doors unlock */
 				if(ArrayComparison(correct_num,entered_num))
- 686:	66 e0       	ldi	r22, 0x06	; 6
+ 686:	60 e1       	ldi	r22, 0x10	; 16
  688:	72 e0       	ldi	r23, 0x02	; 2
  68a:	80 e0       	ldi	r24, 0x00	; 0
  68c:	91 e0       	ldi	r25, 0x01	; 1
@@ -1261,7 +1261,7 @@ ISR(ADC_vect)
 					uart_puts("Correct password\n\r");
  696:	81 e4       	ldi	r24, 0x41	; 65
  698:	91 e0       	ldi	r25, 0x01	; 1
- 69a:	0e 94 7b 04 	call	0x8f6	; 0x8f6 <uart_puts>
+ 69a:	0e 94 8d 04 	call	0x91a	; 0x91a <uart_puts>
 					// text is written in LCD
 					lcd_puts("Correct password");
  69e:	84 e5       	ldi	r24, 0x54	; 84
@@ -1287,14 +1287,14 @@ ISR(ADC_vect)
  6bc:	0e 94 53 00 	call	0xa6	; 0xa6 <Unlock>
 					// Time is returned to 0 
 					time = 0;
- 6c0:	10 92 0d 02 	sts	0x020D, r1	; 0x80020d <time.2110>
+ 6c0:	10 92 17 02 	sts	0x0217, r1	; 0x800217 <time.2110>
 					/* The correct password was 
 					   inserted so number of 
 					   tried attempts to write the
 					   password are reduced to 0 */
 					tries = 0;
- 6c4:	10 92 0c 02 	sts	0x020C, r1	; 0x80020c <tries.2115>
- 6c8:	7e c0       	rjmp	.+252    	; 0x7c6 <__vector_21+0x1d4>
+ 6c4:	10 92 16 02 	sts	0x0216, r1	; 0x800216 <tries.2115>
+ 6c8:	90 c0       	rjmp	.+288    	; 0x7ea <__vector_21+0x1f8>
 				/* If the wrong password is inserted
 				   than this part of code is executed */
 				else
@@ -1303,7 +1303,7 @@ ISR(ADC_vect)
 					uart_puts("Incorrect password\n\r");
  6ca:	85 e6       	ldi	r24, 0x65	; 101
  6cc:	91 e0       	ldi	r25, 0x01	; 1
- 6ce:	0e 94 7b 04 	call	0x8f6	; 0x8f6 <uart_puts>
+ 6ce:	0e 94 8d 04 	call	0x91a	; 0x91a <uart_puts>
 					/* LCD show that the password was 
 					incorrect */
 					lcd_puts("Incorrect");
@@ -1329,13 +1329,13 @@ ISR(ADC_vect)
  6f0:	0e 94 67 00 	call	0xce	; 0xce <Buzzer_sound>
 					// Times reduced to 0
 					time = 0;
- 6f4:	10 92 0d 02 	sts	0x020D, r1	; 0x80020d <time.2110>
+ 6f4:	10 92 17 02 	sts	0x0217, r1	; 0x800217 <time.2110>
 					// Attempt number is increased by 1
 					tries++;
- 6f8:	80 91 0c 02 	lds	r24, 0x020C	; 0x80020c <tries.2115>
+ 6f8:	80 91 16 02 	lds	r24, 0x0216	; 0x800216 <tries.2115>
  6fc:	8f 5f       	subi	r24, 0xFF	; 255
- 6fe:	80 93 0c 02 	sts	0x020C, r24	; 0x80020c <tries.2115>
- 702:	61 c0       	rjmp	.+194    	; 0x7c6 <__vector_21+0x1d4>
+ 6fe:	80 93 16 02 	sts	0x0216, r24	; 0x800216 <tries.2115>
+ 702:	73 c0       	rjmp	.+230    	; 0x7ea <__vector_21+0x1f8>
 	   4 times than this part of the code is 
 	   executed */
 	else if(tries >3)
@@ -1343,11 +1343,11 @@ ISR(ADC_vect)
 		// tries are used as a time variable
 		tries++;
  704:	2f 5f       	subi	r18, 0xFF	; 255
- 706:	20 93 0c 02 	sts	0x020C, r18	; 0x80020c <tries.2115>
+ 706:	20 93 16 02 	sts	0x0216, r18	; 0x800216 <tries.2115>
 		/* time reduced to 0 so that the code
 		   would not jump between code */
 		time = 0;
- 70a:	10 92 0d 02 	sts	0x020D, r1	; 0x80020d <time.2110>
+ 70a:	10 92 17 02 	sts	0x0217, r1	; 0x800217 <time.2110>
 		lcd_gotoxy(0,1);
  70e:	61 e0       	ldi	r22, 0x01	; 1
  710:	80 e0       	ldi	r24, 0x00	; 0
@@ -1359,7 +1359,7 @@ ISR(ADC_vect)
 		/* When the LCD is read then the 
 		   words change*/
 		if(tries == 192)
- 71e:	80 91 0c 02 	lds	r24, 0x020C	; 0x80020c <tries.2115>
+ 71e:	80 91 16 02 	lds	r24, 0x0216	; 0x800216 <tries.2115>
  722:	80 3c       	cpi	r24, 0xC0	; 192
  724:	49 f4       	brne	.+18     	; 0x738 <__vector_21+0x146>
 		{
@@ -1371,25 +1371,25 @@ ISR(ADC_vect)
  72e:	86 e9       	ldi	r24, 0x96	; 150
  730:	91 e0       	ldi	r25, 0x01	; 1
  732:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <lcd_puts>
- 736:	47 c0       	rjmp	.+142    	; 0x7c6 <__vector_21+0x1d4>
+ 736:	59 c0       	rjmp	.+178    	; 0x7ea <__vector_21+0x1f8>
 		}
 		/* Again do the same as before*/
 		else if(tries == 232)
  738:	88 3e       	cpi	r24, 0xE8	; 232
  73a:	09 f0       	breq	.+2      	; 0x73e <__vector_21+0x14c>
- 73c:	44 c0       	rjmp	.+136    	; 0x7c6 <__vector_21+0x1d4>
+ 73c:	56 c0       	rjmp	.+172    	; 0x7ea <__vector_21+0x1f8>
 		{
 			uart_puts("Exceeded 4 times limit\n\r");
  73e:	8d ea       	ldi	r24, 0xAD	; 173
  740:	91 e0       	ldi	r25, 0x01	; 1
- 742:	0e 94 7b 04 	call	0x8f6	; 0x8f6 <uart_puts>
+ 742:	0e 94 8d 04 	call	0x91a	; 0x91a <uart_puts>
 			   to 0 and becomes the number of 
 			   attempts again, because it is the 
 			   last code part of waiting after 
 			   4 wrong attempts and it clears the 
 			   LCD second line*/
 			tries = 0;
- 746:	10 92 0c 02 	sts	0x020C, r1	; 0x80020c <tries.2115>
+ 746:	10 92 16 02 	sts	0x0216, r1	; 0x800216 <tries.2115>
 			lcd_gotoxy(0,1);
  74a:	61 e0       	ldi	r22, 0x01	; 1
  74c:	80 e0       	ldi	r24, 0x00	; 0
@@ -1398,7 +1398,7 @@ ISR(ADC_vect)
  752:	87 e1       	ldi	r24, 0x17	; 23
  754:	91 e0       	ldi	r25, 0x01	; 1
  756:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <lcd_puts>
- 75a:	35 c0       	rjmp	.+106    	; 0x7c6 <__vector_21+0x1d4>
+ 75a:	47 c0       	rjmp	.+142    	; 0x7ea <__vector_21+0x1f8>
 	/* when attempt time reaches 5 seconds
 	   the LCD shows that the attempt time
 	   has ended and shows the text written 
@@ -1414,211 +1414,231 @@ ISR(ADC_vect)
  764:	61 e0       	ldi	r22, 0x01	; 1
  766:	80 e0       	ldi	r24, 0x00	; 0
  768:	0e 94 49 02 	call	0x492	; 0x492 <lcd_gotoxy>
-		lcd_puts("Took to much time");
+		lcd_puts("Time limit       ");
  76c:	86 ec       	ldi	r24, 0xC6	; 198
  76e:	91 e0       	ldi	r25, 0x01	; 1
  770:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <lcd_puts>
 		time++;
- 774:	80 91 0d 02 	lds	r24, 0x020D	; 0x80020d <time.2110>
+ 774:	80 91 17 02 	lds	r24, 0x0217	; 0x800217 <time.2110>
  778:	8f 5f       	subi	r24, 0xFF	; 255
- 77a:	80 93 0d 02 	sts	0x020D, r24	; 0x80020d <time.2110>
- 77e:	23 c0       	rjmp	.+70     	; 0x7c6 <__vector_21+0x1d4>
+ 77a:	80 93 17 02 	sts	0x0217, r24	; 0x800217 <time.2110>
+ 77e:	35 c0       	rjmp	.+106    	; 0x7ea <__vector_21+0x1f8>
 	}
 	else if(time > 100 && time < 170)
- 780:	84 56       	subi	r24, 0x64	; 100
- 782:	85 34       	cpi	r24, 0x45	; 69
- 784:	70 f4       	brcc	.+28     	; 0x7a2 <__vector_21+0x1b0>
+ 780:	2c e9       	ldi	r18, 0x9C	; 156
+ 782:	28 0f       	add	r18, r24
+ 784:	25 34       	cpi	r18, 0x45	; 69
+ 786:	70 f4       	brcc	.+28     	; 0x7a4 <__vector_21+0x1b2>
 	{
 		lcd_gotoxy(0,1);
- 786:	61 e0       	ldi	r22, 0x01	; 1
- 788:	80 e0       	ldi	r24, 0x00	; 0
- 78a:	0e 94 49 02 	call	0x492	; 0x492 <lcd_gotoxy>
-		lcd_puts("Try again              ");
- 78e:	88 ed       	ldi	r24, 0xD8	; 216
- 790:	91 e0       	ldi	r25, 0x01	; 1
- 792:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <lcd_puts>
+ 788:	61 e0       	ldi	r22, 0x01	; 1
+ 78a:	80 e0       	ldi	r24, 0x00	; 0
+ 78c:	0e 94 49 02 	call	0x492	; 0x492 <lcd_gotoxy>
+		lcd_puts("exceeded.       ");
+ 790:	88 ed       	ldi	r24, 0xD8	; 216
+ 792:	91 e0       	ldi	r25, 0x01	; 1
+ 794:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <lcd_puts>
 		time++;
- 796:	80 91 0d 02 	lds	r24, 0x020D	; 0x80020d <time.2110>
- 79a:	8f 5f       	subi	r24, 0xFF	; 255
- 79c:	80 93 0d 02 	sts	0x020D, r24	; 0x80020d <time.2110>
- 7a0:	12 c0       	rjmp	.+36     	; 0x7c6 <__vector_21+0x1d4>
+ 798:	80 91 17 02 	lds	r24, 0x0217	; 0x800217 <time.2110>
+ 79c:	8f 5f       	subi	r24, 0xFF	; 255
+ 79e:	80 93 17 02 	sts	0x0217, r24	; 0x800217 <time.2110>
+ 7a2:	23 c0       	rjmp	.+70     	; 0x7ea <__vector_21+0x1f8>
 	}
-	else if(time > 169)
- 7a2:	9a 3a       	cpi	r25, 0xAA	; 170
- 7a4:	80 f0       	brcs	.+32     	; 0x7c6 <__vector_21+0x1d4>
+	else if(time > 169 && time < 240)
+ 7a4:	89 5a       	subi	r24, 0xA9	; 169
+ 7a6:	86 34       	cpi	r24, 0x46	; 70
+ 7a8:	70 f4       	brcc	.+28     	; 0x7c6 <__vector_21+0x1d4>
+	{
+		lcd_gotoxy(0,1);
+ 7aa:	61 e0       	ldi	r22, 0x01	; 1
+ 7ac:	80 e0       	ldi	r24, 0x00	; 0
+ 7ae:	0e 94 49 02 	call	0x492	; 0x492 <lcd_gotoxy>
+		lcd_puts("Try again.       ");
+ 7b2:	89 ee       	ldi	r24, 0xE9	; 233
+ 7b4:	91 e0       	ldi	r25, 0x01	; 1
+ 7b6:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <lcd_puts>
+		time++;
+ 7ba:	80 91 17 02 	lds	r24, 0x0217	; 0x800217 <time.2110>
+ 7be:	8f 5f       	subi	r24, 0xFF	; 255
+ 7c0:	80 93 17 02 	sts	0x0217, r24	; 0x800217 <time.2110>
+ 7c4:	12 c0       	rjmp	.+36     	; 0x7ea <__vector_21+0x1f8>
+	}
+	else if(time > 239)
+ 7c6:	90 3f       	cpi	r25, 0xF0	; 240
+ 7c8:	80 f0       	brcs	.+32     	; 0x7ea <__vector_21+0x1f8>
 	{
 		uart_puts("Time limit is over\n\r");
- 7a6:	80 ef       	ldi	r24, 0xF0	; 240
- 7a8:	91 e0       	ldi	r25, 0x01	; 1
- 7aa:	0e 94 7b 04 	call	0x8f6	; 0x8f6 <uart_puts>
+ 7ca:	8b ef       	ldi	r24, 0xFB	; 251
+ 7cc:	91 e0       	ldi	r25, 0x01	; 1
+ 7ce:	0e 94 8d 04 	call	0x91a	; 0x91a <uart_puts>
 		lcd_gotoxy(0,1);
- 7ae:	61 e0       	ldi	r22, 0x01	; 1
- 7b0:	80 e0       	ldi	r24, 0x00	; 0
- 7b2:	0e 94 49 02 	call	0x492	; 0x492 <lcd_gotoxy>
+ 7d2:	61 e0       	ldi	r22, 0x01	; 1
+ 7d4:	80 e0       	ldi	r24, 0x00	; 0
+ 7d6:	0e 94 49 02 	call	0x492	; 0x492 <lcd_gotoxy>
 		lcd_puts("                       ");
- 7b6:	87 e1       	ldi	r24, 0x17	; 23
- 7b8:	91 e0       	ldi	r25, 0x01	; 1
- 7ba:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <lcd_puts>
+ 7da:	87 e1       	ldi	r24, 0x17	; 23
+ 7dc:	91 e0       	ldi	r25, 0x01	; 1
+ 7de:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <lcd_puts>
 		time =0;
- 7be:	10 92 0d 02 	sts	0x020D, r1	; 0x80020d <time.2110>
+ 7e2:	10 92 17 02 	sts	0x0217, r1	; 0x800217 <time.2110>
 		quantity=0;
- 7c2:	10 92 0b 02 	sts	0x020B, r1	; 0x80020b <quantity.2112>
+ 7e6:	10 92 15 02 	sts	0x0215, r1	; 0x800215 <quantity.2112>
 	}
- 7c6:	ff 91       	pop	r31
- 7c8:	ef 91       	pop	r30
- 7ca:	cf 91       	pop	r28
- 7cc:	bf 91       	pop	r27
- 7ce:	af 91       	pop	r26
- 7d0:	9f 91       	pop	r25
- 7d2:	8f 91       	pop	r24
- 7d4:	7f 91       	pop	r23
- 7d6:	6f 91       	pop	r22
- 7d8:	5f 91       	pop	r21
- 7da:	4f 91       	pop	r20
- 7dc:	3f 91       	pop	r19
- 7de:	2f 91       	pop	r18
- 7e0:	0f 90       	pop	r0
- 7e2:	0f be       	out	0x3f, r0	; 63
- 7e4:	0f 90       	pop	r0
- 7e6:	1f 90       	pop	r1
- 7e8:	18 95       	reti
+ 7ea:	ff 91       	pop	r31
+ 7ec:	ef 91       	pop	r30
+ 7ee:	cf 91       	pop	r28
+ 7f0:	bf 91       	pop	r27
+ 7f2:	af 91       	pop	r26
+ 7f4:	9f 91       	pop	r25
+ 7f6:	8f 91       	pop	r24
+ 7f8:	7f 91       	pop	r23
+ 7fa:	6f 91       	pop	r22
+ 7fc:	5f 91       	pop	r21
+ 7fe:	4f 91       	pop	r20
+ 800:	3f 91       	pop	r19
+ 802:	2f 91       	pop	r18
+ 804:	0f 90       	pop	r0
+ 806:	0f be       	out	0x3f, r0	; 63
+ 808:	0f 90       	pop	r0
+ 80a:	1f 90       	pop	r1
+ 80c:	18 95       	reti
 
-000007ea <__vector_18>:
- 7ea:	1f 92       	push	r1
- 7ec:	0f 92       	push	r0
- 7ee:	0f b6       	in	r0, 0x3f	; 63
- 7f0:	0f 92       	push	r0
- 7f2:	11 24       	eor	r1, r1
- 7f4:	2f 93       	push	r18
- 7f6:	8f 93       	push	r24
- 7f8:	9f 93       	push	r25
- 7fa:	ef 93       	push	r30
- 7fc:	ff 93       	push	r31
- 7fe:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__DATA_REGION_ORIGIN__+0x60>
- 802:	20 91 c6 00 	lds	r18, 0x00C6	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
- 806:	8c 71       	andi	r24, 0x1C	; 28
- 808:	e0 91 10 02 	lds	r30, 0x0210	; 0x800210 <UART_RxHead>
- 80c:	ef 5f       	subi	r30, 0xFF	; 255
- 80e:	ef 73       	andi	r30, 0x3F	; 63
- 810:	90 91 0f 02 	lds	r25, 0x020F	; 0x80020f <UART_RxTail>
- 814:	e9 17       	cp	r30, r25
- 816:	39 f0       	breq	.+14     	; 0x826 <__vector_18+0x3c>
- 818:	e0 93 10 02 	sts	0x0210, r30	; 0x800210 <UART_RxHead>
- 81c:	f0 e0       	ldi	r31, 0x00	; 0
- 81e:	ed 5e       	subi	r30, 0xED	; 237
- 820:	fd 4f       	sbci	r31, 0xFD	; 253
- 822:	20 83       	st	Z, r18
- 824:	01 c0       	rjmp	.+2      	; 0x828 <__vector_18+0x3e>
- 826:	82 e0       	ldi	r24, 0x02	; 2
- 828:	90 91 0e 02 	lds	r25, 0x020E	; 0x80020e <UART_LastRxError>
- 82c:	89 2b       	or	r24, r25
- 82e:	80 93 0e 02 	sts	0x020E, r24	; 0x80020e <UART_LastRxError>
- 832:	ff 91       	pop	r31
- 834:	ef 91       	pop	r30
- 836:	9f 91       	pop	r25
- 838:	8f 91       	pop	r24
- 83a:	2f 91       	pop	r18
- 83c:	0f 90       	pop	r0
- 83e:	0f be       	out	0x3f, r0	; 63
- 840:	0f 90       	pop	r0
- 842:	1f 90       	pop	r1
- 844:	18 95       	reti
+0000080e <__vector_18>:
+ 80e:	1f 92       	push	r1
+ 810:	0f 92       	push	r0
+ 812:	0f b6       	in	r0, 0x3f	; 63
+ 814:	0f 92       	push	r0
+ 816:	11 24       	eor	r1, r1
+ 818:	2f 93       	push	r18
+ 81a:	8f 93       	push	r24
+ 81c:	9f 93       	push	r25
+ 81e:	ef 93       	push	r30
+ 820:	ff 93       	push	r31
+ 822:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__DATA_REGION_ORIGIN__+0x60>
+ 826:	20 91 c6 00 	lds	r18, 0x00C6	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
+ 82a:	8c 71       	andi	r24, 0x1C	; 28
+ 82c:	e0 91 1a 02 	lds	r30, 0x021A	; 0x80021a <UART_RxHead>
+ 830:	ef 5f       	subi	r30, 0xFF	; 255
+ 832:	ef 73       	andi	r30, 0x3F	; 63
+ 834:	90 91 19 02 	lds	r25, 0x0219	; 0x800219 <UART_RxTail>
+ 838:	e9 17       	cp	r30, r25
+ 83a:	39 f0       	breq	.+14     	; 0x84a <__vector_18+0x3c>
+ 83c:	e0 93 1a 02 	sts	0x021A, r30	; 0x80021a <UART_RxHead>
+ 840:	f0 e0       	ldi	r31, 0x00	; 0
+ 842:	e3 5e       	subi	r30, 0xE3	; 227
+ 844:	fd 4f       	sbci	r31, 0xFD	; 253
+ 846:	20 83       	st	Z, r18
+ 848:	01 c0       	rjmp	.+2      	; 0x84c <__vector_18+0x3e>
+ 84a:	82 e0       	ldi	r24, 0x02	; 2
+ 84c:	90 91 18 02 	lds	r25, 0x0218	; 0x800218 <UART_LastRxError>
+ 850:	89 2b       	or	r24, r25
+ 852:	80 93 18 02 	sts	0x0218, r24	; 0x800218 <UART_LastRxError>
+ 856:	ff 91       	pop	r31
+ 858:	ef 91       	pop	r30
+ 85a:	9f 91       	pop	r25
+ 85c:	8f 91       	pop	r24
+ 85e:	2f 91       	pop	r18
+ 860:	0f 90       	pop	r0
+ 862:	0f be       	out	0x3f, r0	; 63
+ 864:	0f 90       	pop	r0
+ 866:	1f 90       	pop	r1
+ 868:	18 95       	reti
 
-00000846 <__vector_19>:
- 846:	1f 92       	push	r1
- 848:	0f 92       	push	r0
- 84a:	0f b6       	in	r0, 0x3f	; 63
- 84c:	0f 92       	push	r0
- 84e:	11 24       	eor	r1, r1
- 850:	8f 93       	push	r24
- 852:	9f 93       	push	r25
- 854:	ef 93       	push	r30
- 856:	ff 93       	push	r31
- 858:	90 91 12 02 	lds	r25, 0x0212	; 0x800212 <UART_TxHead>
- 85c:	80 91 11 02 	lds	r24, 0x0211	; 0x800211 <UART_TxTail>
- 860:	98 17       	cp	r25, r24
- 862:	69 f0       	breq	.+26     	; 0x87e <__vector_19+0x38>
- 864:	e0 91 11 02 	lds	r30, 0x0211	; 0x800211 <UART_TxTail>
- 868:	ef 5f       	subi	r30, 0xFF	; 255
- 86a:	ef 73       	andi	r30, 0x3F	; 63
- 86c:	e0 93 11 02 	sts	0x0211, r30	; 0x800211 <UART_TxTail>
- 870:	f0 e0       	ldi	r31, 0x00	; 0
- 872:	ed 5a       	subi	r30, 0xAD	; 173
- 874:	fd 4f       	sbci	r31, 0xFD	; 253
- 876:	80 81       	ld	r24, Z
- 878:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
- 87c:	05 c0       	rjmp	.+10     	; 0x888 <__vector_19+0x42>
- 87e:	e1 ec       	ldi	r30, 0xC1	; 193
- 880:	f0 e0       	ldi	r31, 0x00	; 0
- 882:	80 81       	ld	r24, Z
- 884:	8f 7d       	andi	r24, 0xDF	; 223
- 886:	80 83       	st	Z, r24
- 888:	ff 91       	pop	r31
- 88a:	ef 91       	pop	r30
- 88c:	9f 91       	pop	r25
- 88e:	8f 91       	pop	r24
- 890:	0f 90       	pop	r0
- 892:	0f be       	out	0x3f, r0	; 63
- 894:	0f 90       	pop	r0
- 896:	1f 90       	pop	r1
- 898:	18 95       	reti
+0000086a <__vector_19>:
+ 86a:	1f 92       	push	r1
+ 86c:	0f 92       	push	r0
+ 86e:	0f b6       	in	r0, 0x3f	; 63
+ 870:	0f 92       	push	r0
+ 872:	11 24       	eor	r1, r1
+ 874:	8f 93       	push	r24
+ 876:	9f 93       	push	r25
+ 878:	ef 93       	push	r30
+ 87a:	ff 93       	push	r31
+ 87c:	90 91 1c 02 	lds	r25, 0x021C	; 0x80021c <UART_TxHead>
+ 880:	80 91 1b 02 	lds	r24, 0x021B	; 0x80021b <UART_TxTail>
+ 884:	98 17       	cp	r25, r24
+ 886:	69 f0       	breq	.+26     	; 0x8a2 <__vector_19+0x38>
+ 888:	e0 91 1b 02 	lds	r30, 0x021B	; 0x80021b <UART_TxTail>
+ 88c:	ef 5f       	subi	r30, 0xFF	; 255
+ 88e:	ef 73       	andi	r30, 0x3F	; 63
+ 890:	e0 93 1b 02 	sts	0x021B, r30	; 0x80021b <UART_TxTail>
+ 894:	f0 e0       	ldi	r31, 0x00	; 0
+ 896:	e3 5a       	subi	r30, 0xA3	; 163
+ 898:	fd 4f       	sbci	r31, 0xFD	; 253
+ 89a:	80 81       	ld	r24, Z
+ 89c:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
+ 8a0:	05 c0       	rjmp	.+10     	; 0x8ac <__vector_19+0x42>
+ 8a2:	e1 ec       	ldi	r30, 0xC1	; 193
+ 8a4:	f0 e0       	ldi	r31, 0x00	; 0
+ 8a6:	80 81       	ld	r24, Z
+ 8a8:	8f 7d       	andi	r24, 0xDF	; 223
+ 8aa:	80 83       	st	Z, r24
+ 8ac:	ff 91       	pop	r31
+ 8ae:	ef 91       	pop	r30
+ 8b0:	9f 91       	pop	r25
+ 8b2:	8f 91       	pop	r24
+ 8b4:	0f 90       	pop	r0
+ 8b6:	0f be       	out	0x3f, r0	; 63
+ 8b8:	0f 90       	pop	r0
+ 8ba:	1f 90       	pop	r1
+ 8bc:	18 95       	reti
 
-0000089a <uart_init>:
- 89a:	10 92 12 02 	sts	0x0212, r1	; 0x800212 <UART_TxHead>
- 89e:	10 92 11 02 	sts	0x0211, r1	; 0x800211 <UART_TxTail>
- 8a2:	10 92 10 02 	sts	0x0210, r1	; 0x800210 <UART_RxHead>
- 8a6:	10 92 0f 02 	sts	0x020F, r1	; 0x80020f <UART_RxTail>
- 8aa:	99 23       	and	r25, r25
- 8ac:	1c f4       	brge	.+6      	; 0x8b4 <uart_init+0x1a>
- 8ae:	22 e0       	ldi	r18, 0x02	; 2
- 8b0:	20 93 c0 00 	sts	0x00C0, r18	; 0x8000c0 <__DATA_REGION_ORIGIN__+0x60>
- 8b4:	90 78       	andi	r25, 0x80	; 128
- 8b6:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__DATA_REGION_ORIGIN__+0x65>
- 8ba:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__DATA_REGION_ORIGIN__+0x64>
- 8be:	88 e9       	ldi	r24, 0x98	; 152
- 8c0:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__DATA_REGION_ORIGIN__+0x61>
- 8c4:	86 e0       	ldi	r24, 0x06	; 6
- 8c6:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__DATA_REGION_ORIGIN__+0x62>
- 8ca:	08 95       	ret
+000008be <uart_init>:
+ 8be:	10 92 1c 02 	sts	0x021C, r1	; 0x80021c <UART_TxHead>
+ 8c2:	10 92 1b 02 	sts	0x021B, r1	; 0x80021b <UART_TxTail>
+ 8c6:	10 92 1a 02 	sts	0x021A, r1	; 0x80021a <UART_RxHead>
+ 8ca:	10 92 19 02 	sts	0x0219, r1	; 0x800219 <UART_RxTail>
+ 8ce:	99 23       	and	r25, r25
+ 8d0:	1c f4       	brge	.+6      	; 0x8d8 <uart_init+0x1a>
+ 8d2:	22 e0       	ldi	r18, 0x02	; 2
+ 8d4:	20 93 c0 00 	sts	0x00C0, r18	; 0x8000c0 <__DATA_REGION_ORIGIN__+0x60>
+ 8d8:	90 78       	andi	r25, 0x80	; 128
+ 8da:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__DATA_REGION_ORIGIN__+0x65>
+ 8de:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__DATA_REGION_ORIGIN__+0x64>
+ 8e2:	88 e9       	ldi	r24, 0x98	; 152
+ 8e4:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__DATA_REGION_ORIGIN__+0x61>
+ 8e8:	86 e0       	ldi	r24, 0x06	; 6
+ 8ea:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__DATA_REGION_ORIGIN__+0x62>
+ 8ee:	08 95       	ret
 
-000008cc <uart_putc>:
- 8cc:	20 91 12 02 	lds	r18, 0x0212	; 0x800212 <UART_TxHead>
- 8d0:	2f 5f       	subi	r18, 0xFF	; 255
- 8d2:	2f 73       	andi	r18, 0x3F	; 63
- 8d4:	90 91 11 02 	lds	r25, 0x0211	; 0x800211 <UART_TxTail>
- 8d8:	29 17       	cp	r18, r25
- 8da:	e1 f3       	breq	.-8      	; 0x8d4 <uart_putc+0x8>
- 8dc:	e2 2f       	mov	r30, r18
- 8de:	f0 e0       	ldi	r31, 0x00	; 0
- 8e0:	ed 5a       	subi	r30, 0xAD	; 173
- 8e2:	fd 4f       	sbci	r31, 0xFD	; 253
- 8e4:	80 83       	st	Z, r24
- 8e6:	20 93 12 02 	sts	0x0212, r18	; 0x800212 <UART_TxHead>
- 8ea:	e1 ec       	ldi	r30, 0xC1	; 193
- 8ec:	f0 e0       	ldi	r31, 0x00	; 0
- 8ee:	80 81       	ld	r24, Z
- 8f0:	80 62       	ori	r24, 0x20	; 32
- 8f2:	80 83       	st	Z, r24
- 8f4:	08 95       	ret
+000008f0 <uart_putc>:
+ 8f0:	20 91 1c 02 	lds	r18, 0x021C	; 0x80021c <UART_TxHead>
+ 8f4:	2f 5f       	subi	r18, 0xFF	; 255
+ 8f6:	2f 73       	andi	r18, 0x3F	; 63
+ 8f8:	90 91 1b 02 	lds	r25, 0x021B	; 0x80021b <UART_TxTail>
+ 8fc:	29 17       	cp	r18, r25
+ 8fe:	e1 f3       	breq	.-8      	; 0x8f8 <uart_putc+0x8>
+ 900:	e2 2f       	mov	r30, r18
+ 902:	f0 e0       	ldi	r31, 0x00	; 0
+ 904:	e3 5a       	subi	r30, 0xA3	; 163
+ 906:	fd 4f       	sbci	r31, 0xFD	; 253
+ 908:	80 83       	st	Z, r24
+ 90a:	20 93 1c 02 	sts	0x021C, r18	; 0x80021c <UART_TxHead>
+ 90e:	e1 ec       	ldi	r30, 0xC1	; 193
+ 910:	f0 e0       	ldi	r31, 0x00	; 0
+ 912:	80 81       	ld	r24, Z
+ 914:	80 62       	ori	r24, 0x20	; 32
+ 916:	80 83       	st	Z, r24
+ 918:	08 95       	ret
 
-000008f6 <uart_puts>:
- 8f6:	cf 93       	push	r28
- 8f8:	df 93       	push	r29
- 8fa:	ec 01       	movw	r28, r24
- 8fc:	88 81       	ld	r24, Y
- 8fe:	88 23       	and	r24, r24
- 900:	31 f0       	breq	.+12     	; 0x90e <__stack+0xf>
- 902:	21 96       	adiw	r28, 0x01	; 1
- 904:	0e 94 66 04 	call	0x8cc	; 0x8cc <uart_putc>
- 908:	89 91       	ld	r24, Y+
- 90a:	81 11       	cpse	r24, r1
- 90c:	fb cf       	rjmp	.-10     	; 0x904 <__stack+0x5>
- 90e:	df 91       	pop	r29
- 910:	cf 91       	pop	r28
- 912:	08 95       	ret
+0000091a <uart_puts>:
+ 91a:	cf 93       	push	r28
+ 91c:	df 93       	push	r29
+ 91e:	ec 01       	movw	r28, r24
+ 920:	88 81       	ld	r24, Y
+ 922:	88 23       	and	r24, r24
+ 924:	31 f0       	breq	.+12     	; 0x932 <uart_puts+0x18>
+ 926:	21 96       	adiw	r28, 0x01	; 1
+ 928:	0e 94 78 04 	call	0x8f0	; 0x8f0 <uart_putc>
+ 92c:	89 91       	ld	r24, Y+
+ 92e:	81 11       	cpse	r24, r1
+ 930:	fb cf       	rjmp	.-10     	; 0x928 <uart_puts+0xe>
+ 932:	df 91       	pop	r29
+ 934:	cf 91       	pop	r28
+ 936:	08 95       	ret
 
-00000914 <_exit>:
- 914:	f8 94       	cli
+00000938 <_exit>:
+ 938:	f8 94       	cli
 
-00000916 <__stop_program>:
- 916:	ff cf       	rjmp	.-2      	; 0x916 <__stop_program>
+0000093a <__stop_program>:
+ 93a:	ff cf       	rjmp	.-2      	; 0x93a <__stop_program>

@@ -213,16 +213,22 @@ ISR(ADC_vect)
 	else if(time > 47 && time < 101)
 	{
 		lcd_gotoxy(0,1);
-		lcd_puts("Took to much time");
+		lcd_puts("Time limit       ");
 		time++;
 	}
 	else if(time > 100 && time < 170)
 	{
 		lcd_gotoxy(0,1);
-		lcd_puts("Try again              ");
+		lcd_puts("exceeded.       ");
 		time++;
 	}
-	else if(time > 169)
+	else if(time > 169 && time < 240)
+	{
+		lcd_gotoxy(0,1);
+		lcd_puts("Try again.       ");
+		time++;
+	}
+	else if(time > 239)
 	{
 		uart_puts("Time limit is over\n\r");
 		lcd_gotoxy(0,1);
